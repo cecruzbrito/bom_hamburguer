@@ -6,6 +6,7 @@ import 'package:bom_hamburguer/menu/errors/errors.dart';
 import 'package:bom_hamburguer/menu/infra/datasources/menu_datasource.dart';
 
 import '../../../core/errors/errors.dart';
+import '../../domain/entities/discount_entity.dart';
 
 class MenuDatasourceLocalImp implements MenuDatasource {
   @override
@@ -55,17 +56,67 @@ class MenuDatasourceLocalImp implements MenuDatasource {
     try {
       await Future.delayed(Duration(seconds: Random().nextInt(3) + 1));
       if (cart.products.any((p) => p.type == product.type)) {
-        throw AddInCartFailure(msg: "You can only add one ${product.type.name.toLowerCase()} per order.");
+        throw AddInCartDenied(msg: "You can only add one ${product.type.name.toLowerCase()} per order.");
       }
-      return cart.copyWith(products: [...cart.products, product]);
+      var resultCart = cart.copyWith(products: [...cart.products, product]);
+      resultCart = calculateCartPricing(resultCart);
+      return resultCart;
     } on Failure {
       rethrow;
     }
   }
 
+  CartEntity calculateCartPricing(CartEntity resultCart) {
+    resultCart = resultCart.copyWith(discount: applyDiscount(resultCart));
+    resultCart = resultCart.copyWith(grossTotal: calculateGrossTotal(resultCart));
+    resultCart = resultCart.copyWith(netTotal: calculateNetTotal(resultCart));
+    return resultCart;
+  }
+
+  DiscountEntity applyDiscount(CartEntity cart) {
+    final types = cart.products.map((e) => e.type).toList().toSet();
+    if (types.containsAll([ProductType.fries, ProductType.sandwich, ProductType.softDrink])) {
+      var percentageDiscount = 0.2;
+      final valueDiscount = cart.grossTotal * percentageDiscount;
+      return DiscountEntity(
+        desc: "Sandwich + Fries + Drink Discount",
+        percentage: percentageDiscount,
+        valueDiscount: valueDiscount,
+      );
+    }
+    if (types.containsAll([ProductType.sandwich, ProductType.softDrink])) {
+      var percentageDiscount = 0.15;
+      final valueDiscount = cart.grossTotal * percentageDiscount;
+      return DiscountEntity(
+        desc: "Sandwich + Drink Discount",
+        percentage: percentageDiscount,
+        valueDiscount: valueDiscount,
+      );
+    }
+    if (types.containsAll([ProductType.sandwich, ProductType.fries])) {
+      var percentageDiscount = 0.1;
+      final valueDiscount = cart.grossTotal * percentageDiscount;
+      return DiscountEntity(
+        desc: "Sandwich + Fries Discount",
+        percentage: percentageDiscount,
+        valueDiscount: valueDiscount,
+      );
+    }
+    return DiscountEntity.zero;
+  }
+
+  double calculateGrossTotal(CartEntity cart) => cart.products.map((p) => p.price).fold(0, (a, b) => a + b);
+
+  double calculateNetTotal(CartEntity cart) {
+    if (!cart.discount.hasDiscount) return cart.grossTotal;
+    return cart.grossTotal - (cart.grossTotal * cart.discount.percentage);
+  }
+
   @override
   Future<CartEntity> removeFromCart(ProductEntity product, {required CartEntity cart}) async {
     await Future.delayed(Duration(seconds: Random().nextInt(3) + 1));
-    return cart.copyWith(products: cart.products..remove(product));
+    var resultCart = cart.copyWith(products: cart.products..remove(product));
+    resultCart = calculateCartPricing(resultCart);
+    return resultCart;
   }
 }

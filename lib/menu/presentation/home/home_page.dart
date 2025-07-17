@@ -24,7 +24,16 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
-      listener: (_, state) {},
+      listener: (_, state) {
+        if (state is AddToCartSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.message),
+              backgroundColor: state is AddToCartError ? Colors.red : Colors.green,
+            ),
+          );
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(title: Text("Bom Hamburguer")),
@@ -48,9 +57,8 @@ class _HomePageState extends State<HomePage> {
                     children: [
                       ...ProductType.values.map(
                         (t) => ProductListByTypes(
-                          onTapAddInCart: state.loadingProduct
-                              ? null
-                              : (product) => context.read<HomeBloc>().add(AddToCart(product: product)),
+                          hasLoading: state.loadingProduct,
+                          onTapAddInCart: (product) => context.read<HomeBloc>().add(AddToCart(product: product)),
                           product: state.products.where((p) => p.type == t).toList(),
                           type: t,
                         ),
@@ -64,6 +72,28 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       },
+    );
+  }
+}
+
+class GradientBackground extends StatelessWidget {
+  final Widget child;
+
+  const GradientBackground({super.key, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [colorScheme.primaryContainer, colorScheme.primary.withOpacity(0.8)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: child,
     );
   }
 }

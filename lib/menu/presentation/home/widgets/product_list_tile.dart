@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/currency_formatter/util_currency_formatter.dart';
 
 class ProductListTile extends StatelessWidget {
-  const ProductListTile({super.key, required this.product, required this.onTapAddInCart});
+  const ProductListTile({super.key, required this.product, required this.onTapAddInCart, required this.hasLoading});
   final ProductEntity product;
-  final Function(ProductEntity)? onTapAddInCart;
+  final Function(ProductEntity) onTapAddInCart;
+  final bool hasLoading;
   @override
   Widget build(BuildContext context) {
     final title = product.name;
@@ -14,8 +15,8 @@ class ProductListTile extends StatelessWidget {
     final image = product.image;
     final price = UtilCurrencyFormatter.format(product.price);
     var textTheme = Theme.of(context).textTheme;
-    var width = 230.0;
-    var heightImage = 170.0;
+    var width = 200.0;
+    var heightImage = 150.0;
     return SizedBox(
       width: width,
       child: Column(
@@ -33,7 +34,7 @@ class ProductListTile extends StatelessWidget {
               Text(title, style: textTheme.titleMedium),
               Text(
                 subtitle,
-                style: textTheme.bodySmall?.copyWith(color: Colors.grey),
+                style: textTheme.bodySmall?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 2,
               ),
@@ -43,8 +44,9 @@ class ProductListTile extends StatelessWidget {
 
           Align(
             alignment: Alignment.bottomRight,
-            child: IconButton.filledTonal(
-              onPressed: onTapAddInCart == null ? null : () => onTapAddInCart!(product),
+            child: FilledButton.icon(
+              label: Text("Add to Cart"),
+              onPressed: hasLoading ? null : () => onTapAddInCart(product),
               icon: Icon(Icons.add),
             ),
           ),

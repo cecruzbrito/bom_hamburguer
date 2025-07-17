@@ -1,4 +1,5 @@
-class AddInCartFailure implements Exception {
-  final String msg;
-  AddInCartFailure({required this.msg});
+import 'package:bom_hamburguer/core/errors/errors.dart';
+
+class AddInCartDenied extends Failure {
+  AddInCartDenied({required super.msg});
 }

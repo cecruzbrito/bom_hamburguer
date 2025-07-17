@@ -31,10 +31,53 @@ final class HomeProductsLoaded extends HomeState {
   }
 }
 
-class HomeError extends HomeState {
-  final String msg;
+class HomeScreenError extends HomeState {
+  final String message;
 
-  HomeError({required this.msg});
+  HomeScreenError({required this.message});
+}
+
+class AddToCartSuccess extends HomeState {
+  final String message;
+
+  AddToCartSuccess(this.message);
+
   @override
-  List<Object?> get props => [msg];
+  List<Object?> get props => [message];
+}
+
+class AddToCartError extends HomeState {
+  final String message;
+
+  AddToCartError(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class AddToCartDenied extends HomeState {
+  final String message;
+
+  AddToCartDenied(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class RemoveFromCartSuccess extends HomeState {
+  final String message;
+
+  RemoveFromCartSuccess(this.message);
+
+  @override
+  List<Object?> get props => [message];
+}
+
+class RemoveFromCartError extends HomeState {
+  final String message;
+
+  RemoveFromCartError(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

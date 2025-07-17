@@ -6,6 +6,7 @@ import '../../../domain/entities/cart_entity.dart';
 import '../../../domain/entities/product_entity.dart';
 import '../../../domain/usecases/add_in_cart/menu_usecase_add_in_cart.dart';
 import '../../../domain/usecases/remove_from_cart/menu_usecase_remove_from_cart.dart';
+import '../../../errors/errors.dart';
 
 part 'home_state.dart';
 part 'home_event.dart';
@@ -32,7 +33,20 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     var current = (state as HomeProductsLoaded);
     emit(current.copyWith(loadingProduct: true));
     final response = await _usecaseAddInCart(event.product, cart: current.cart);
-    response.fold((l) => null, (r) => emit(current.copyWith(cart: r, loadingProduct: false)));
+    response.fold(
+      (l) {
+        if (l is AddInCartDenied) {
+          emit(AddToCartDenied(l.msg));
+        } else {
+          emit(AddToCartError(l.msg));
+        }
+        emit(current.copyWith(loadingProduct: false));
+      },
+      (r) {
+        emit(AddToCartSuccess("The product has been added to your order!"));
+        emit(current.copyWith(cart: r, loadingProduct: false));
+      },
+    );
   }
 
   void _onRemoveFromCart(RemoveFromCart event, Emitter<HomeState> emit) async {
@@ -40,6 +54,15 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     var current = (state as HomeProductsLoaded);
     emit(current.copyWith(loadingProduct: true));
     final response = await _usecaseRemoveFromCart(event.product, cart: current.cart);
-    response.fold((l) => null, (r) => emit(current.copyWith(cart: r, loadingProduct: false)));
+    response.fold(
+      (l) {
+        emit(RemoveFromCartError(l.msg));
+        emit(current.copyWith(loadingProduct: false));
+      },
+      (r) {
+        emit(RemoveFromCartSuccess("The product has been removed from your order!"));
+        emit(current.copyWith(cart: r, loadingProduct: false));
+      },
+    );
   }
 }
