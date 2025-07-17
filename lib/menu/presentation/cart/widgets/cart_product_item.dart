@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/currency_formatter/util_currency_formatter.dart';
 
 class CartProductItem extends StatelessWidget {
-  const CartProductItem({super.key, required this.product});
+  const CartProductItem({super.key, required this.product, required this.onTapRemove});
   final ProductEntity product;
+  final Function(ProductEntity) onTapRemove;
   @override
   Widget build(BuildContext context) {
     final image = product.image;
@@ -47,7 +48,7 @@ class CartProductItem extends StatelessWidget {
               ],
             ),
           ),
-          IconButton.filledTonal(onPressed: () {}, icon: Icon(Icons.delete)),
+          IconButton.filledTonal(onPressed: () => onTapRemove(product), icon: Icon(Icons.delete)),
         ],
       ),
     );

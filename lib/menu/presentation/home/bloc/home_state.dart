@@ -56,12 +56,13 @@ class AddToCartError extends HomeState {
 }
 
 class AddToCartDenied extends HomeState {
+  final String title = "Add to Cart Denied";
   final String message;
 
   AddToCartDenied(this.message);
 
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [title, message];
 }
 
 class RemoveFromCartSuccess extends HomeState {
