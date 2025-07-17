@@ -1,6 +1,3 @@
-import 'package:bom_hamburguer/core/widgets/dialogs/dialog_ok/core_dialog_ok.dart';
-import 'package:bom_hamburguer/menu/presentation/home/bloc/home_bloc.dart';
-import 'package:bom_hamburguer/menu/presentation/home/widgets/product_list_by_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -8,7 +5,9 @@ import '../../../core/widgets/dialogs/core_dialogs.dart';
 import '../../../core/widgets/scroll/core_scroll.dart';
 import '../../../core/widgets/snack_bars/core_snack_bars.dart';
 import '../../domain/entities/product_entity.dart';
+import 'bloc/home_bloc.dart';
 import 'widgets/cart_bottom.dart';
+import 'widgets/product_list_by_type.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
