@@ -1,3 +1,4 @@
+import 'package:bom_hamburguer/core/mixins/padding/padding_app.dart';
 import 'package:bom_hamburguer/core/router/app_router.dart';
 import 'package:bom_hamburguer/core/widgets/field/core_text_field.dart';
 import 'package:bom_hamburguer/core/widgets/scroll/core_scroll.dart';
@@ -6,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/mixins/validators/validators.dart';
+import 'widget/payment_status_widget.dart';
+import 'widget/payment_success_widget.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({super.key});
@@ -14,8 +17,8 @@ class PaymentPage extends StatefulWidget {
   State<PaymentPage> createState() => _PaymentPageState();
 }
 
-class _PaymentPageState extends State<PaymentPage> with Validators {
-  final ctrName = TextEditingController();
+class _PaymentPageState extends State<PaymentPage> with Validators, PaddingApp {
+  final ctrName = TextEditingController(text: "Leru");
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -24,9 +27,10 @@ class _PaymentPageState extends State<PaymentPage> with Validators {
       appBar: AppBar(leading: Container()),
       body: BlocBuilder<PaymentBloc, PaymentState>(
         bloc: context.read(),
+
         builder: (_, state) {
           if (state is PaymentLoading) {
-            return Center(child: CircularProgressIndicator());
+            return PopScope(canPop: false, child: Center(child: CircularProgressIndicator()));
           }
 
           if (state is PaymentStarted) {
@@ -43,7 +47,12 @@ class _PaymentPageState extends State<PaymentPage> with Validators {
                         spacing: 10,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          CoreTextField(validator: validatorEmpty, hint: "Name for the order", label: "Name"),
+                          CoreTextField(
+                            validator: validatorEmpty,
+                            hint: "Name for the order",
+                            label: "Name",
+                            ctr: ctrName,
+                          ),
                           ElevatedButton.icon(
                             iconAlignment: IconAlignment.end,
                             onPressed: () {
@@ -64,21 +73,21 @@ class _PaymentPageState extends State<PaymentPage> with Validators {
           }
 
           if (state is PaymentProcess) {
-            return Center(child: Text(state.paymentProcess.status.desc));
+            return PopScope(
+              canPop: false,
+              child: Padding(
+                padding: paddingScrollDefault,
+                child: PaymentStatusWidget(status: state.paymentProcess.status),
+              ),
+            );
           }
 
           if (state is PaymentFinished) {
-            return Center(
-              child: Column(
-                children: [
-                  Text(state.paymentProcess.status.desc),
-                  ElevatedButton(
-                    onPressed: () {
-                      AppRouter.go("/");
-                    },
-                    child: Text("Continue"),
-                  ),
-                ],
+            return PopScope(
+              canPop: false,
+              child: Padding(
+                padding: paddingScrollDefault,
+                child: PaymentSuccessWidget(nameCustomer: state.paymentProcess.customerName),
               ),
             );
           }

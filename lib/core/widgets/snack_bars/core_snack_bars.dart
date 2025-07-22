@@ -6,6 +6,7 @@ class CoreSnackBars {
     if (scaffoldMessengerKey.currentState == null) return;
     return scaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
+        duration: Duration(milliseconds: 800),
         content: Text(msg, style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.green,
       ),
@@ -16,6 +17,7 @@ class CoreSnackBars {
     if (scaffoldMessengerKey.currentState == null) return;
     return scaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
+        duration: Duration(milliseconds: 800),
         content: Text(msg, style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.red,
       ),

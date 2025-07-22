@@ -27,4 +27,12 @@ enum PaymentStatus {
     PaymentStatus.paymentApproved => 'Payment successfully confirmed!',
     PaymentStatus.completed => 'Your order is complete!',
   };
+
+  String get sticker => switch (this) {
+    PaymentStatus.validatingCart => "assets/payment_status/cart.webp",
+    PaymentStatus.initiatingPayment => "assets/payment_status/init_processing.webp",
+    PaymentStatus.processingPayment => "assets/payment_status/init_processing.webp",
+    PaymentStatus.paymentApproved => "assets/payment_status/success.webp",
+    PaymentStatus.completed => "assets/payment_status/completed.webp",
+  };
 }
