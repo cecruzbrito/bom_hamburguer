@@ -19,4 +19,10 @@ enum ProductType {
     ProductType.fries => "Fries",
     ProductType.softDrink => "Soft Drinkies",
   };
+
+  String get asset => switch (this) {
+    ProductType.sandwich => "assets/icons/sandwich.webp",
+    ProductType.fries => "assets/icons/french-fries.webp",
+    ProductType.softDrink => "assets/icons/soft-drink.webp",
+  };
 }

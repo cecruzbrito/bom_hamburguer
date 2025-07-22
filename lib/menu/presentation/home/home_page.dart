@@ -2,7 +2,7 @@ import 'package:bom_hamburguer/core/widgets/error/core_error_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/widgets/dialogs/core_dialogs.dart';
+import '../../../core/widgets/field/core_text_field.dart';
 import '../../../core/widgets/loading/core_loading.dart';
 import '../../../core/widgets/scroll/core_scroll.dart';
 import '../../../core/widgets/snack_bars/core_snack_bars.dart';
@@ -10,6 +10,7 @@ import '../../domain/entities/product_entity.dart';
 import 'bloc/home_bloc.dart';
 import 'widgets/cart_bottom.dart';
 import 'widgets/product_list_by_type.dart';
+import 'widgets/promotions_slide.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text("Bom Hamburguer")),
+          appBar: AppBar(title: Text("Order Your Favorite Fast Food!")),
 
           bottomNavigationBar: state is HomeProductsLoaded
               ? state.cart.hasEmpty
@@ -81,6 +82,19 @@ class _HomePageState extends State<HomePage> {
                     spacing: 30,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Padding(
+                        padding: EdgeInsets.only(right: 10, top: 10),
+                        child: Column(
+                          spacing: 10,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            CoreTextField(prefix: Icon(Icons.search), hint: "Search"),
+
+                            PromotionsSlide(),
+                          ],
+                        ),
+                      ),
                       ...ProductType.values.map(
                         (t) => ProductListByTypes(
                           onTapAddInCart: (product) => context.read<HomeBloc>().add(AddToCart(product: product)),

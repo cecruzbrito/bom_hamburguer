@@ -17,7 +17,7 @@ class ProductListByTypes extends StatelessWidget {
       spacing: 10,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(type.name, style: Theme.of(context).textTheme.headlineSmall),
+        Text(type.name, style: Theme.of(context).textTheme.titleLarge),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           primary: false,

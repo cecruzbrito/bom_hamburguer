@@ -37,15 +37,6 @@ final class HomeProductsLoaded extends HomeState {
   }
 }
 
-class HomeScreenError extends HomeState {
-  final String message;
-
-  HomeScreenError({required this.message});
-
-  @override
-  List<Object?> get props => [message];
-}
-
 class AddToCartSuccess extends HomeState {
   final String message;
 
