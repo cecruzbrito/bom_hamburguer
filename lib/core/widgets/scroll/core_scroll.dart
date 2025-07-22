@@ -1,4 +1,4 @@
-import 'package:bom_hamburguer/core/mixins/padding_app.dart';
+import 'package:bom_hamburguer/core/mixins/padding/padding_app.dart';
 import 'package:flutter/material.dart';
 
 class CoreScroll extends StatelessWidget with PaddingApp {

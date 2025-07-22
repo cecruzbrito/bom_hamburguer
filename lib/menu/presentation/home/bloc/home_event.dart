@@ -15,3 +15,5 @@ class RemoveFromCart extends HomeEvent {
 
   RemoveFromCart({required this.product});
 }
+
+class CompleteSale extends HomeEvent {}

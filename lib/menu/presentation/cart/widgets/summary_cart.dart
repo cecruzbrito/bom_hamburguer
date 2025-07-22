@@ -1,10 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:bom_hamburguer/core/router/app_router.dart';
 import 'package:flutter/material.dart';
 
 import 'package:bom_hamburguer/core/utils/currency_formatter/util_currency_formatter.dart';
 import 'package:bom_hamburguer/menu/domain/entities/cart_entity.dart';
 
-import '../../../../core/mixins/padding_app.dart';
+import '../../../../core/mixins/padding/padding_app.dart';
 import '../../../../core/widgets/animations/size_transition/core_size_transition.dart';
 import '../../../../core/widgets/dotted_line/core_dotted_line.dart';
 
@@ -58,7 +59,9 @@ class SummaryCart extends StatelessWidget with PaddingApp {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        AppRouter.push("/payment");
+                      },
                       child: Padding(padding: EdgeInsets.symmetric(vertical: 15), child: Text("Process Order")),
                     ),
                   ),

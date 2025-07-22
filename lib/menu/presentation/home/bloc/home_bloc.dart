@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:bom_hamburguer/menu/domain/usecases/get_products/menu_usecase_get_products.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<AddToCart>(_onAddInCart);
     on<RemoveFromCart>(_onRemoveFromCart);
     on<LoadProducts>(_onLoadProducts);
+    on<CompleteSale>(_onCompleteSale);
   }
 
   void _onLoadProducts(LoadProducts event, Emitter<HomeState> emit) async {
@@ -64,5 +67,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         emit(current.copyWith(cart: r, loadingProduct: false));
       },
     );
+  }
+
+  void _onCompleteSale(CompleteSale event, Emitter<HomeState> emit) {
+    if (state is! HomeProductsLoaded) return;
+    emit((state as HomeProductsLoaded).copyWith(cart: CartEntity.empty, loadingProduct: false));
   }
 }

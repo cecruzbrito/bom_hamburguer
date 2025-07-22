@@ -3,11 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/router/app_router.dart';
 import 'menu/menu_module.dart';
+import 'payment/payment_module.dart';
 
 void main() {
   runApp(
     MultiRepositoryProvider(
-      providers: [...MenuModule.providers],
+      providers: [...MenuModule.providers, ...PaymentModule.providers],
       child: MultiBlocProvider(providers: [...MenuModule.blocs], child: const MyApp()),
     ),
   );
