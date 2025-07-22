@@ -10,6 +10,8 @@ class AddToCart extends HomeEvent {
   AddToCart({required this.product});
 }
 
+class RetryToHomeLoaded extends HomeEvent {}
+
 class RemoveFromCart extends HomeEvent {
   final ProductEntity product;
 

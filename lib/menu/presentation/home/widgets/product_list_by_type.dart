@@ -5,17 +5,10 @@ import 'package:flutter/material.dart';
 import '../../../domain/entities/product_entity.dart';
 
 class ProductListByTypes extends StatelessWidget {
-  const ProductListByTypes({
-    super.key,
-    required this.product,
-    required this.type,
-    required this.onTapAddInCart,
-    required this.hasLoading,
-  });
+  const ProductListByTypes({super.key, required this.product, required this.type, required this.onTapAddInCart});
   final List<ProductEntity> product;
   final ProductType type;
   final Function(ProductEntity) onTapAddInCart;
-  final bool hasLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -31,9 +24,7 @@ class ProductListByTypes extends StatelessWidget {
           child: Row(
             spacing: 10,
             children: [
-              ...product.map(
-                (e) => ProductListTile(product: e, onTapAddInCart: onTapAddInCart, hasLoading: hasLoading),
-              ),
+              ...product.map((e) => ProductListTile(product: e, onTapAddInCart: onTapAddInCart)),
               SizedBox(width: 5),
             ],
           ),

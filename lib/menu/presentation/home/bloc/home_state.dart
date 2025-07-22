@@ -6,28 +6,34 @@ sealed class HomeState extends Equatable {
   List<Object?> get props => [];
 }
 
-final class HomeLoading extends HomeState {}
+final class HomeLoading extends HomeState {
+  final String? text;
 
-final class HomeLoadingAddProduct extends HomeState {}
+  HomeLoading({this.text});
+
+  @override
+  List<Object?> get props => [text];
+}
 
 final class HomeStarted extends HomeState {}
+
+final class HomeGetProductsError extends HomeState {
+  final String msg;
+
+  HomeGetProductsError({required this.msg});
+}
 
 final class HomeProductsLoaded extends HomeState {
   final List<ProductEntity> products;
   final CartEntity cart;
-  final bool loadingProduct;
 
-  HomeProductsLoaded({required this.products, required this.cart, this.loadingProduct = false});
+  HomeProductsLoaded({required this.products, required this.cart});
 
   @override
-  List<Object?> get props => [products, cart, loadingProduct];
+  List<Object?> get props => [products, cart];
 
-  HomeProductsLoaded copyWith({List<ProductEntity>? products, CartEntity? cart, bool? loadingProduct}) {
-    return HomeProductsLoaded(
-      products: products ?? this.products,
-      cart: cart ?? this.cart,
-      loadingProduct: loadingProduct ?? this.loadingProduct,
-    );
+  HomeProductsLoaded copyWith({List<ProductEntity>? products, CartEntity? cart}) {
+    return HomeProductsLoaded(products: products ?? this.products, cart: cart ?? this.cart);
   }
 }
 
@@ -35,6 +41,9 @@ class HomeScreenError extends HomeState {
   final String message;
 
   HomeScreenError({required this.message});
+
+  @override
+  List<Object?> get props => [message];
 }
 
 class AddToCartSuccess extends HomeState {
@@ -58,11 +67,12 @@ class AddToCartError extends HomeState {
 class AddToCartDenied extends HomeState {
   final String title = "Add to Cart Denied";
   final String message;
+  final HomeState? previousState;
 
-  AddToCartDenied(this.message);
+  AddToCartDenied(this.message, this.previousState);
 
   @override
-  List<Object?> get props => [title, message];
+  List<Object?> get props => [title, message, previousState];
 }
 
 class RemoveFromCartSuccess extends HomeState {

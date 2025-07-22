@@ -17,7 +17,7 @@ class PaymentSuccessWidget extends StatelessWidget {
         Image.asset(PaymentStatus.completed.sticker, height: 100, width: 100),
         Text(title, style: Theme.of(context).textTheme.headlineMedium),
         Text(desc, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center),
-        ElevatedButton.icon(onPressed: () => AppRouter.go("/"), icon: Icon(Icons.home), label: Text("Back do home")),
+        ElevatedButton.icon(onPressed: () => AppRouter.go("/"), icon: Icon(Icons.home), label: Text("Back to home")),
       ],
     );
   }

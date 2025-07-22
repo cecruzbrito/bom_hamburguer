@@ -6,9 +6,15 @@ class CoreSnackBars {
     if (scaffoldMessengerKey.currentState == null) return;
     return scaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
+        elevation: 10,
         duration: Duration(milliseconds: 800),
-        content: Text(msg, style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.green,
+        content: Row(
+          spacing: 10,
+          children: [
+            Icon(Icons.check_circle, color: Colors.green),
+            Flexible(child: Text(msg)),
+          ],
+        ),
       ),
     );
   }
@@ -17,9 +23,15 @@ class CoreSnackBars {
     if (scaffoldMessengerKey.currentState == null) return;
     return scaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
+        elevation: 10,
         duration: Duration(milliseconds: 800),
-        content: Text(msg, style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.red,
+        content: Row(
+          spacing: 10,
+          children: [
+            Icon(Icons.cancel, color: Colors.red),
+            Flexible(child: Text(msg)),
+          ],
+        ),
       ),
     );
   }

@@ -22,32 +22,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<RemoveFromCart>(_onRemoveFromCart);
     on<LoadProducts>(_onLoadProducts);
     on<CompleteSale>(_onCompleteSale);
+    on<RetryToHomeLoaded>(_onRetryToHomeLoaded);
   }
 
   void _onLoadProducts(LoadProducts event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
     await Future.delayed(Duration(seconds: 2));
     final response = await _usecaseGetProducts();
-    response.fold((l) => null, (r) => emit(HomeProductsLoaded(products: r, cart: CartEntity.empty)));
+    response.fold(
+      (l) => emit(HomeGetProductsError(msg: l.msg)),
+      (r) => emit(HomeProductsLoaded(products: r, cart: CartEntity.empty)),
+    );
   }
 
   void _onAddInCart(AddToCart event, Emitter<HomeState> emit) async {
     if (state is! HomeProductsLoaded) return;
     var current = (state as HomeProductsLoaded);
-    emit(current.copyWith(loadingProduct: true));
+    emit(HomeLoading(text: "Just a moment, adding your selection..."));
     final response = await _usecaseAddInCart(event.product, cart: current.cart);
     response.fold(
       (l) {
         if (l is AddInCartDenied) {
-          emit(AddToCartDenied(l.msg));
-        } else {
-          emit(AddToCartError(l.msg));
+          return emit(AddToCartDenied(l.msg, current));
         }
-        emit(current.copyWith(loadingProduct: false));
+        emit(AddToCartError(l.msg));
+        emit(current.copyWith());
       },
       (r) {
         emit(AddToCartSuccess("The product has been added to your order!"));
-        emit(current.copyWith(cart: r, loadingProduct: false));
+        emit(current.copyWith(cart: r));
       },
     );
   }
@@ -55,22 +58,29 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void _onRemoveFromCart(RemoveFromCart event, Emitter<HomeState> emit) async {
     if (state is! HomeProductsLoaded) return;
     var current = (state as HomeProductsLoaded);
-    emit(current.copyWith(loadingProduct: true));
+    emit(HomeLoading(text: "Just a moment, removing your selection..."));
+
     final response = await _usecaseRemoveFromCart(event.product, cart: current.cart);
     response.fold(
       (l) {
         emit(RemoveFromCartError(l.msg));
-        emit(current.copyWith(loadingProduct: false));
+        emit(current);
       },
       (r) {
         emit(RemoveFromCartSuccess("The product has been removed from your order!"));
-        emit(current.copyWith(cart: r, loadingProduct: false));
+        emit(current.copyWith(cart: r));
       },
     );
   }
 
   void _onCompleteSale(CompleteSale event, Emitter<HomeState> emit) {
     if (state is! HomeProductsLoaded) return;
-    emit((state as HomeProductsLoaded).copyWith(cart: CartEntity.empty, loadingProduct: false));
+    emit((state as HomeProductsLoaded).copyWith(cart: CartEntity.empty));
+  }
+
+  void _onRetryToHomeLoaded(RetryToHomeLoaded event, Emitter<HomeState> emit) {
+    if (state is! AddToCartDenied) return;
+    if ((state as AddToCartDenied).previousState == null) return;
+    emit((state as AddToCartDenied).previousState!);
   }
 }

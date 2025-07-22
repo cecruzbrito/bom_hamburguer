@@ -54,7 +54,7 @@ class MenuDatasourceLocalImp implements MenuDatasource {
   @override
   Future<CartEntity> addInCart(ProductEntity product, {required CartEntity cart}) async {
     try {
-      // await Future.delayed(Duration(seconds: Random().nextInt(3) + 1));
+      await Future.delayed(Duration(seconds: Random().nextInt(2) + 1));
       if (cart.products.any((p) => p.type == product.type)) {
         throw AddInCartDenied(msg: "You can only add one ${product.type.name.toLowerCase()} per order.");
       }

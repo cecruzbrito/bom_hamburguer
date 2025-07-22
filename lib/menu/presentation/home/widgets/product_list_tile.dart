@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import '../../../../core/utils/currency_formatter/util_currency_formatter.dart';
 
 class ProductListTile extends StatelessWidget {
-  const ProductListTile({super.key, required this.product, required this.onTapAddInCart, required this.hasLoading});
+  const ProductListTile({super.key, required this.product, required this.onTapAddInCart});
   final ProductEntity product;
   final Function(ProductEntity) onTapAddInCart;
-  final bool hasLoading;
   @override
   Widget build(BuildContext context) {
     final title = product.name;
@@ -46,7 +45,7 @@ class ProductListTile extends StatelessWidget {
             alignment: Alignment.bottomRight,
             child: FilledButton.icon(
               label: Text("Add to Cart"),
-              onPressed: hasLoading ? null : () => onTapAddInCart(product),
+              onPressed: () => onTapAddInCart(product),
               icon: Icon(Icons.add),
             ),
           ),

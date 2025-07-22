@@ -33,6 +33,6 @@ enum PaymentStatus {
     PaymentStatus.initiatingPayment => "assets/payment_status/init_processing.webp",
     PaymentStatus.processingPayment => "assets/payment_status/init_processing.webp",
     PaymentStatus.paymentApproved => "assets/payment_status/success.webp",
-    PaymentStatus.completed => "assets/payment_status/completed.webp",
+    PaymentStatus.completed => "assets/icons/completed.webp",
   };
 }

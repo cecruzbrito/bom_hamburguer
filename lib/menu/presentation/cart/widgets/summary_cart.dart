@@ -18,7 +18,7 @@ class SummaryCart extends StatelessWidget with PaddingApp {
     final grossTotal = UtilCurrencyFormatter.format(cart.grossTotal);
     final grossTotalTitle = "Total";
     final discount = UtilCurrencyFormatter.format(cart.discount.valueDiscount);
-    final discountTitle = "Discount";
+    final discountTitle = "Discount ${!cart.discount.hasDiscount ? "" : "(${cart.discount.desc})"}";
     final totalPaymentTitle = "Total Payment";
     final totalPayment = UtilCurrencyFormatter.format(cart.netTotal);
     var textTheme = Theme.of(context).textTheme;
