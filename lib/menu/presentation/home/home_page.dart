@@ -10,7 +10,8 @@ import '../../domain/entities/product_entity.dart';
 import 'bloc/home_bloc.dart';
 import 'widgets/cart_bottom.dart';
 import 'widgets/product_list_by_type.dart';
-import 'widgets/promotions_slide.dart';
+import 'widgets/promotions_slide/promotion_slider.dart';
+import 'widgets/promotions_slide/promotions_item.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,38 +41,44 @@ class _HomePageState extends State<HomePage> {
       },
       builder: (context, state) {
         return Scaffold(
-          appBar: AppBar(title: Text("Order Your Favorite Fast Food!")),
+          appBar: AppBar(title: Text("Ready to order?")),
 
           bottomNavigationBar: state is HomeProductsLoaded
               ? state.cart.hasEmpty
                     ? null
-                    : CartBottom(cart: state.cart)
+                    : CartBottom(cart: state.cart, key: Key("CartBottomHome"))
               : null,
           body: Builder(
             builder: (_) {
               if (state is HomeLoading) {
-                return CoreLoading(text: state.text);
+                return PopScope(canPop: false, child: CoreLoading(text: state.text));
               }
 
               if (state is AddToCartDenied) {
-                return CoreErrorWidget(
-                  desc: state.message,
-                  title: state.title,
-                  type: TypeError.canceled,
-                  button: ButtonEntity(
-                    label: "Ok",
-                    icon: Icons.check,
-                    onTap: () => context.read<HomeBloc>().add(RetryToHomeLoaded()),
+                return PopScope(
+                  canPop: false,
+                  child: CoreErrorWidget(
+                    desc: state.message,
+                    title: state.title,
+                    type: TypeError.canceled,
+                    button: ButtonEntity(
+                      label: "Ok",
+                      icon: Icons.check,
+                      onTap: () => context.read<HomeBloc>().add(RetryToHomeLoaded()),
+                    ),
                   ),
                 );
               }
 
               if (state is HomeGetProductsError) {
-                return CoreErrorWidget(
-                  desc: state.msg,
-                  title: "Error",
-                  type: TypeError.warning,
-                  button: ButtonEntity.tryAgain(() => context.read<HomeBloc>().add(LoadProducts())),
+                return PopScope(
+                  canPop: false,
+                  child: CoreErrorWidget(
+                    desc: state.msg,
+                    title: "Error",
+                    type: TypeError.warning,
+                    button: ButtonEntity.tryAgain(() => context.read<HomeBloc>().add(LoadProducts())),
+                  ),
                 );
               }
 
@@ -85,13 +92,23 @@ class _HomePageState extends State<HomePage> {
                       Padding(
                         padding: EdgeInsets.only(right: 10, top: 10),
                         child: Column(
-                          spacing: 10,
+                          spacing: 20,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            CoreTextField(prefix: Icon(Icons.search), hint: "Search"),
-
-                            PromotionsSlide(discounts: state.discounts),
+                            Row(
+                              spacing: 5,
+                              children: [
+                                Expanded(
+                                  child: CoreTextField(
+                                    prefix: Icon(Icons.search),
+                                    hint: "Search sandwich, fries, drink",
+                                  ),
+                                ),
+                                FilledButton(onPressed: () {}, child: Icon(Icons.tune)),
+                              ],
+                            ),
+                            PromotionSlider(discounts: state.discounts),
                           ],
                         ),
                       ),
@@ -111,28 +128,6 @@ class _HomePageState extends State<HomePage> {
           ),
         );
       },
-    );
-  }
-}
-
-class GradientBackground extends StatelessWidget {
-  final Widget child;
-
-  const GradientBackground({super.key, required this.child});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [colorScheme.primaryContainer, colorScheme.primary.withOpacity(0.8)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: child,
     );
   }
 }

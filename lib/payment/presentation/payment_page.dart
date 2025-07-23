@@ -1,12 +1,14 @@
 import 'package:bom_hamburguer/core/mixins/padding/padding_app.dart';
 import 'package:bom_hamburguer/core/router/app_router.dart';
 import 'package:bom_hamburguer/core/widgets/field/core_text_field.dart';
+import 'package:bom_hamburguer/core/widgets/loading/core_loading.dart';
 import 'package:bom_hamburguer/core/widgets/scroll/core_scroll.dart';
 import 'package:bom_hamburguer/payment/presentation/bloc/payment_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../core/mixins/validators/validators.dart';
+import '../../core/widgets/error/core_error_widget.dart';
 import 'widget/payment_status_widget.dart';
 import 'widget/payment_success_widget.dart';
 
@@ -18,7 +20,7 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> with Validators, PaddingApp {
-  final ctrName = TextEditingController(text: "Leru");
+  final ctrName = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -30,7 +32,23 @@ class _PaymentPageState extends State<PaymentPage> with Validators, PaddingApp {
 
         builder: (_, state) {
           if (state is PaymentLoading) {
-            return PopScope(canPop: false, child: Center(child: CircularProgressIndicator()));
+            return PopScope(canPop: false, child: CoreLoading());
+          }
+
+          if (state is PaymentError) {
+            return PopScope(
+              canPop: false,
+              child: CoreErrorWidget(
+                desc: state.msg,
+                title: "Error",
+                type: TypeError.warning,
+                button: ButtonEntity(
+                  icon: Icons.shopping_cart,
+                  label: "Back to Cart",
+                  onTap: () => AppRouter.go("/cart"),
+                ),
+              ),
+            );
           }
 
           if (state is PaymentStarted) {

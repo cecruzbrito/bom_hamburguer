@@ -18,6 +18,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final MenuUsecaseGetProducts _usecaseGetProducts;
   final MenuUsecaseAddInCart _usecaseAddInCart;
   final MenuUsecaseRemoveFromCart _usecaseRemoveFromCart;
+
   HomeBloc(this._usecaseGetProducts, this._usecaseAddInCart, this._usecaseRemoveFromCart) : super(HomeStarted()) {
     on<AddToCart>(_onAddInCart);
     on<RemoveFromCart>(_onRemoveFromCart);
@@ -25,6 +26,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<CompleteSale>(_onCompleteSale);
     on<RetryToHomeLoaded>(_onRetryToHomeLoaded);
   }
+
+  Stream<DiscountEntity> steam = Stream.empty();
 
   void _onLoadProducts(LoadProducts event, Emitter<HomeState> emit) async {
     emit(HomeLoading());

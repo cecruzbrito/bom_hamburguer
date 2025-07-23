@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:widget_and_text_animator/widget_and_text_animator.dart';
 
 import '../../mixins/padding/padding_app.dart';
 
@@ -19,7 +20,10 @@ class CoreErrorWidget extends StatelessWidget with PaddingApp {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset(type.asset, height: 100, width: 100),
+            WidgetAnimator(
+              incomingEffect: WidgetTransitionEffects.incomingScaleUp(),
+              child: Image.asset(type.asset, height: 100, width: 100),
+            ),
             Text(title, style: Theme.of(context).textTheme.headlineMedium),
             Text(desc, style: Theme.of(context).textTheme.bodyMedium, textAlign: TextAlign.center),
             if (button != null)

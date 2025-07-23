@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 class CoreSnackBars {
   static success(String msg) async {
     if (scaffoldMessengerKey.currentState == null) return;
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(Duration(milliseconds: 500));
 
     return scaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,
         elevation: 10,
-        duration: Duration(seconds: 1),
+        duration: Duration(seconds: 2),
         content: Row(
           spacing: 10,
           children: [
@@ -24,7 +24,7 @@ class CoreSnackBars {
 
   static error(String msg) async {
     if (scaffoldMessengerKey.currentState == null) return;
-    await Future.delayed(Duration(milliseconds: 300));
+    await Future.delayed(Duration(seconds: 2));
     return scaffoldMessengerKey.currentState!.showSnackBar(
       SnackBar(
         behavior: SnackBarBehavior.floating,

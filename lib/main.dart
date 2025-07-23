@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       scaffoldMessengerKey: scaffoldMessengerKey,
       routerConfig: AppRouter.router,
-      title: 'Flutter Demo',
+      title: 'Bom Hamburguer',
+      themeMode: ThemeMode.system,
       darkTheme: customTheme.dark(),
       theme: customTheme.light(),
     );

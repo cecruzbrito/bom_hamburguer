@@ -5,9 +5,24 @@ abstract class PaymentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class PaymentLoading extends PaymentState {}
+class PaymentLoading extends PaymentState {
+  final String msg;
+
+  PaymentLoading(this.msg);
+  @override
+  List<Object?> get props => [msg];
+}
 
 class PaymentStarted extends PaymentState {}
+
+class PaymentError extends PaymentState {
+  final String msg;
+
+  PaymentError({required this.msg});
+
+  @override
+  List<Object?> get props => [msg];
+}
 
 class PaymentProcess extends PaymentState {
   final PaymentProcessEntity paymentProcess;

@@ -18,10 +18,10 @@ class PaymentBloc extends Bloc<PaymentEvent, PaymentState> {
   }
 
   Future<void> _inputName(InputName event, Emitter<PaymentState> emit) async {
-    emit(PaymentLoading());
+    emit(PaymentLoading("Initializing payment"));
     final response = await _usecasePayment(event.name);
-    response.fold((l) => null, (r) {
-      r.listen(_updatingStatus);
+    response.fold((l) => emit(PaymentError(msg: l.msg)), (r) {
+      r.listen(_updatingStatus, onError: (l) => PaymentError(msg: "$l"));
     });
   }
 
