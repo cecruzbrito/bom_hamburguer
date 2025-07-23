@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                           children: [
                             CoreTextField(prefix: Icon(Icons.search), hint: "Search"),
 
-                            PromotionsSlide(),
+                            PromotionsSlide(discounts: state.discounts),
                           ],
                         ),
                       ),

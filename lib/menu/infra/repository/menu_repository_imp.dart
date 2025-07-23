@@ -5,12 +5,14 @@ import 'package:bom_hamburguer/menu/domain/repository/menu_repository.dart';
 import 'package:bom_hamburguer/menu/infra/datasources/menu_datasource.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../domain/entities/home_response_entity.dart';
+
 class MenuRepositoryImp implements MenuRepository {
   final MenuDatasource _datasource;
 
   MenuRepositoryImp(this._datasource);
   @override
-  Future<Either<Failure, List<ProductEntity>>> getProducts() async {
+  Future<Either<Failure, HomeResponseEntity>> getProducts() async {
     try {
       return Right(await _datasource.getProducts());
     } on Failure catch (e) {

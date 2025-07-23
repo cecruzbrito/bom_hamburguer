@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bom_hamburguer/menu/domain/entities/discount_entity.dart';
 import 'package:bom_hamburguer/menu/domain/usecases/get_products/menu_usecase_get_products.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     final response = await _usecaseGetProducts();
     response.fold(
       (l) => emit(HomeGetProductsError(msg: l.msg)),
-      (r) => emit(HomeProductsLoaded(products: r, cart: CartEntity.empty)),
+      (r) => emit(HomeProductsLoaded(discounts: r.discounts, products: r.products, cart: CartEntity.empty)),
     );
   }
 

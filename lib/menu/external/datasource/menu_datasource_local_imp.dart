@@ -7,48 +7,56 @@ import 'package:bom_hamburguer/menu/infra/datasources/menu_datasource.dart';
 
 import '../../../core/errors/errors.dart';
 import '../../domain/entities/discount_entity.dart';
+import '../../domain/entities/home_response_entity.dart';
 
 class MenuDatasourceLocalImp implements MenuDatasource {
   @override
-  Future<List<ProductEntity>> getProducts() async {
+  Future<HomeResponseEntity> getProducts() async {
     await Future.delayed(Duration(seconds: Random().nextInt(3) + 1));
-    return [
-      ProductEntity(
-        name: 'X-Burger',
-        desc: 'Sandwich with burger patty',
-        price: 5.00,
-        type: ProductType.sandwich,
-        image: "assets/products/x_burguer.webp",
-      ),
-      ProductEntity(
-        name: 'X-Egg',
-        desc: 'Sandwich with egg',
-        price: 4.50,
-        type: ProductType.sandwich,
-        image: "assets/products/x_egg.png",
-      ),
-      ProductEntity(
-        name: 'X-Bacon',
-        desc: 'Sandwich with bacon',
-        price: 7.00,
-        type: ProductType.sandwich,
-        image: "assets/products/x_bacon.jpg",
-      ),
-      ProductEntity(
-        name: 'Fries',
-        desc: 'Crispy fries',
-        price: 2.00,
-        type: ProductType.fries,
-        image: "assets/products/fries.webp",
-      ),
-      ProductEntity(
-        name: 'Soft drink',
-        desc: 'Cold soft drink',
-        price: 2.50,
-        type: ProductType.softDrink,
-        image: "assets/products/soft_drink.webp",
-      ),
-    ];
+    return HomeResponseEntity(
+      discounts: [
+        DiscountEntity(desc: "Sandwich + Fries + Drink Discount", percentage: .2, valueDiscount: 0),
+        DiscountEntity(desc: "Sandwich + Drink Discount", percentage: .15, valueDiscount: 0),
+        DiscountEntity(desc: "Sandwich + Fries Discount", percentage: .1, valueDiscount: 0),
+      ],
+      products: [
+        ProductEntity(
+          name: 'X-Burger',
+          desc: 'Sandwich with burger patty',
+          price: 5.00,
+          type: ProductType.sandwich,
+          image: "assets/products/x_burguer.webp",
+        ),
+        ProductEntity(
+          name: 'X-Egg',
+          desc: 'Sandwich with egg',
+          price: 4.50,
+          type: ProductType.sandwich,
+          image: "assets/products/x_egg.png",
+        ),
+        ProductEntity(
+          name: 'X-Bacon',
+          desc: 'Sandwich with bacon',
+          price: 7.00,
+          type: ProductType.sandwich,
+          image: "assets/products/x_bacon.jpg",
+        ),
+        ProductEntity(
+          name: 'Fries',
+          desc: 'Crispy fries',
+          price: 2.00,
+          type: ProductType.fries,
+          image: "assets/products/fries.webp",
+        ),
+        ProductEntity(
+          name: 'Soft drink',
+          desc: 'Cold soft drink',
+          price: 2.50,
+          type: ProductType.softDrink,
+          image: "assets/products/soft_drink.webp",
+        ),
+      ],
+    );
   }
 
   @override

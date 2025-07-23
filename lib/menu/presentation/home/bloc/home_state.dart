@@ -26,14 +26,19 @@ final class HomeGetProductsError extends HomeState {
 final class HomeProductsLoaded extends HomeState {
   final List<ProductEntity> products;
   final CartEntity cart;
+  final List<DiscountEntity> discounts;
 
-  HomeProductsLoaded({required this.products, required this.cart});
+  HomeProductsLoaded({required this.discounts, required this.products, required this.cart});
 
   @override
   List<Object?> get props => [products, cart];
 
-  HomeProductsLoaded copyWith({List<ProductEntity>? products, CartEntity? cart}) {
-    return HomeProductsLoaded(products: products ?? this.products, cart: cart ?? this.cart);
+  HomeProductsLoaded copyWith({List<ProductEntity>? products, CartEntity? cart, List<DiscountEntity>? discounts}) {
+    return HomeProductsLoaded(
+      products: products ?? this.products,
+      cart: cart ?? this.cart,
+      discounts: discounts ?? this.discounts,
+    );
   }
 }
 
