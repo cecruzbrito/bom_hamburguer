@@ -26,7 +26,7 @@ class CoreLoading extends StatelessWidget {
             outgoingEffect: WidgetTransitionEffects.incomingOffsetThenScale(),
             atRestEffect: WidgetRestingEffects.size(effectStrength: .9),
             key: UniqueKey(),
-            child: Image.asset("assets/icon_app/icon_app.png", height: 100, width: 100, fit: BoxFit.contain),
+            child: Image.asset("assets/icon_app/icon.png", height: 100, width: 100, fit: BoxFit.contain),
           ),
           TextAnimator(
             incomingEffect: WidgetTransitionEffects.incomingSlideInFromBottom(duration: Duration(milliseconds: 500)),
