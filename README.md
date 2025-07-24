@@ -10,6 +10,13 @@ discount.
 4. Each order cannot contain more than one sandwich, fries, or soda. If two identical items are
 sent, the APP should return an error message displaying the reason.
 
+## Products
+1. X Burger – $ 5,00
+2. X Egg - $ 4,50
+3. X Bacon - $ 7,00
+4. Fries - $ 2,00
+5. Soft drink - $ 2,50
+
 # Architecture
 
 This module follows an architecture based on Clean Architecture, with adaptations to maintain simplicity and modularity. The structure is replicated across all project modules, following the pattern below:
@@ -60,7 +67,8 @@ Handles the functionality for retrieving the application's product menu, as well
 ### PaymentModule
 Handles the simulation of a payment transaction.
 
-# Pacotes utilizdos
+# Packages Used
+These are the main packages used throughout the project to support architecture, navigation, state management, and functional programming. Each one was chosen to promote clean code, scalability, and maintainability.
 
 ## Dependency Injection and State Management (**flutter_bloc**)
 The project uses flutter_bloc to manage both state and dependency injection. Using the Bloc pattern, it organizes business logic around events (which represent user actions or external inputs) and states (which represent the UI’s condition). BlocProvider handles dependency injection, while the clear event-to-state flow ensures predictable and testable state management.
