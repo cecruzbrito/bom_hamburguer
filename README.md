@@ -1,5 +1,6 @@
-# Processo seletivo do Grupo Adriano Cobuccio
-Desenvolvimento de um projeto para pesquisa de criptomoedas por meio de uma API externa, permitindo que o usuário favorite ativos localmente para acessá-los com mais facilidade, além de oferecer a visualização detalhada de suas informações por meio de gráficos interativos.
+# STgenetics Recruitment Process
+A "Bom Hamburger" application was developed for this process, designed for placing and managing orders.
+
 
 # Business Rules
 
